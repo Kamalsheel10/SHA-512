@@ -22,7 +22,7 @@ H = [
     0x1f83d9abfb41bd6b, 0x5be0cd19137e2179,
 ]
 
-# Constants
+
 K = [
     0x428a2f98d728ae22, 0x7137449123ef65cd, 0xb5c0fbcfec4d3b2f, 0xe9b5dba58189dbbc,
     0x3956c25bf348b538, 0x59f111f1b605d019, 0x923f82a4af194f9b, 0xab1c5ed5da6d8118,
@@ -76,14 +76,14 @@ def sha_512(message):
         0x1f83d9abfb41bd6b, 0x5be0cd19137e2179
     )
 
-    # Prepare the message for processing
+
     padded_msg = padding_msg(message)
     blocks = divide_into_blocks(padded_msg)
 
     for block in blocks:
         w = [0] * 80
 
-        # Prepare message schedule
+
         for t in range(16):
             w[t] = int.from_bytes(block[t * 8:(t + 1) * 8], "big")
 
@@ -92,7 +92,7 @@ def sha_512(message):
             s1 = (right_rotate(w[t - 2], 19) ^ right_rotate(w[t - 2], 61) ^ (w[t - 2] >> 6))
             w[t] = (w[t - 16] + s0 + w[t - 7] + s1) & 0xFFFFFFFFFFFFFFFF
 
-        # Initialize hash values for this block
+
         a, b, c, d, e, f, g, h = (a, b, c, d, e, f, g, h)
 
         for t in range(80):
@@ -107,10 +107,10 @@ def sha_512(message):
             b = a
             a = (T1 + T2) & 0xFFFFFFFFFFFFFFFF
 
-        # Update hash values for this block
+
         a, b, c, d, e, f, g, h = (a + a, b + b, c + c, d + d, e + e, f + f, g + g, h + h)
 
-    # Final result
+
     hash_value = f"{a:016x}{b:016x}{c:016x}{d:016x}{e:016x}{f:016x}{g:016x}{h:016x}"
     return hash_value
 
